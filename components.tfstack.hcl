@@ -1,6 +1,5 @@
 component "account_base" {
-  source = "terraform-ibm-modules/account-infrastructure-base/ibm"
-  version = "1.18.2"
+  source = "./account"
 
   inputs = {
     region = var.region
@@ -13,8 +12,7 @@ component "account_base" {
 }
 
 component "secret_manager" {
-  source = "terraform-ibm-modules/secrets-manager/ibm"
-  version = "1.23.7"
+  source = "./sm"
 
   inputs = {
     name = "${var.prefix}-sm"
@@ -30,8 +28,7 @@ component "secret_manager" {
 }
 
 component "key_protect" {
-  source = "terraform-ibm-modules/key-protect/ibm"
-  version = "2.10.0"
+  source = "./kp"
 
   inputs = {
     name = "${var.prefix}-kp"
