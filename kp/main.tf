@@ -87,29 +87,29 @@ locals {
   }]
 }
 
-module "cbr_rule" {
-  count            = length(var.cbr_rules)
-  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.29.0"
-  rule_description = var.cbr_rules[count.index].description
-  enforcement_mode = var.cbr_rules[count.index].enforcement_mode
-  rule_contexts    = var.cbr_rules[count.index].rule_contexts
-  resources = [{
-    attributes = [
-      {
-        name  = "accountId"
-        value = var.cbr_rules[count.index].account_id
-      },
-      {
-        name     = "serviceInstance"
-        value    = ibm_resource_instance.key_protect_instance.guid
-        operator = "stringEquals"
-      },
-      {
-        name  = "serviceName"
-        value = "kms"
-      }
-    ]
-  }]
-  operations = var.cbr_rules[count.index].operations == null ? local.default_operations : var.cbr_rules[count.index].operations
-}
+# module "cbr_rule" {
+#   count            = length(var.cbr_rules)
+#   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
+#   version          = "1.29.0"
+#   rule_description = var.cbr_rules[count.index].description
+#   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
+#   rule_contexts    = var.cbr_rules[count.index].rule_contexts
+#   resources = [{
+#     attributes = [
+#       {
+#         name  = "accountId"
+#         value = var.cbr_rules[count.index].account_id
+#       },
+#       {
+#         name     = "serviceInstance"
+#         value    = ibm_resource_instance.key_protect_instance.guid
+#         operator = "stringEquals"
+#       },
+#       {
+#         name  = "serviceName"
+#         value = "kms"
+#       }
+#     ]
+#   }]
+#   operations = var.cbr_rules[count.index].operations == null ? local.default_operations : var.cbr_rules[count.index].operations
+# }

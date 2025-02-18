@@ -42,7 +42,7 @@ output "kp_public_endpoint" {
   value       = local.kp_endpoints["endpoints.public"]
 }
 
-output "cbr_rule_ids" {
-  description = "CBR rule ids created to restrict Key Protect"
-  value       = length(module.cbr_rule[*]) > 0 ? module.cbr_rule[*].rule_id : null
-}
+# output "cbr_rule_ids" {
+#   description = "CBR rule ids created to restrict Key Protect"
+#   value       = length(module.cbr_rule[*]) > 0 ? module.cbr_rule[*].rule_id : null
+# }
