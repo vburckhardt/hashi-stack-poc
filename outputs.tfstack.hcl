@@ -1,5 +1,5 @@
-output "lambda_urls" {
-  type = list(string)
-  description = "URLs to invoke lambda functions"
-  value = [ for x in component.lambda: x.invoke_arn ]
+output "resource_group" {
+  type = string
+  description = "Resource group where resources are deployed"
+  value = component.account_base.security_resource_group_id
 }
