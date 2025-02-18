@@ -17,6 +17,6 @@ deployment "production" {
 }
 
 store "varset" "apikey" {
-  id       = "ibmcloud_api_key"
+  id       = "varset-ZuPWK6anuuvh1vze"
   category = "env"
 }
