@@ -19,6 +19,7 @@ component "secret_manager" {
     region                     = var.region
     sm_service_plan            = "trial"
     existing_kms_instance_guid = component.key_protect.key_protect_guid
+    kms_encryption_enabled = true
   }
 
   providers = {
