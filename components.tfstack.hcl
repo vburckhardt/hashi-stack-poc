@@ -1,52 +1,45 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
-component "s3" {
-  for_each = var.regions
-
-  source = "./s3"
+component "account_base" {
+  source = "terraform-ibm-modules/account-infrastructure-base/ibm"
+  version = "1.18.2"
 
   inputs = {
-    region = each.value
+    region = var.region
+    resource_group_name = "${var.prefix}-${var.resource_group_name}"
   }
 
   providers = {
-    aws    = provider.aws.configurations[each.value]
-    random = provider.random.this
+    ibm     = provider.ibm.this
   }
 }
 
-component "lambda" {
-  for_each = var.regions
-
-  source = "./lambda"
+component "secret_manager" {
+  source = "terraform-ibm-modules/secrets-manager/ibm"
+  version = "1.23.7"
 
   inputs = {
-    region    = var.regions
-    bucket_id = component.s3[each.value].bucket_id
+    name = "${var.prefix}-sm"
+    resource_group_id = component.account_base.security_resource_group_id
+    region = var.region
+    sm_service_plan = "trial"
+    existing_kms_instance_guid = component.key_protect.key_protect_crn
   }
 
   providers = {
-    aws     = provider.aws.configurations[each.value]
-    archive = provider.archive.this
-    local   = provider.local.this
-    random  = provider.random.this
+    ibm     = provider.ibm.this
   }
 }
 
-component "api_gateway" {
-  for_each = var.regions
-
-  source = "./api-gateway"
+component "key_protect" {
+  source = "terraform-ibm-modules/key-protect/ibm"
+  version = "2.10.0"
 
   inputs = {
-    region               = each.value
-    lambda_function_name = component.lambda[each.value].function_name
-    lambda_invoke_arn    = component.lambda[each.value].invoke_arn
+    name = "${var.prefix}-kp"
+    region = var.region
+    resource_group_id = component.account_base.security_resource_group_id
   }
 
   providers = {
-    aws    = provider.aws.configurations[each.value]
-    random = provider.random.this
+    ibm     = provider.ibm.this
   }
 }

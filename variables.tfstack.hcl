@@ -1,21 +1,20 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
-variable "regions" {
-  type = set(string)
-}
-
-variable "identity_token" {
-  type      = string
-  ephemeral = true
-}
-
-variable "role_arn" {
+variable "prefix" {
   type = string
+  description = "Prefix for all resources"
 }
 
-variable "default_tags" {
-  description = "A map of default tags to apply to all AWS resources"
-  type        = map(string)
-  default     = {}
+variable "resource_group_name" {
+  type = string
+  description = "Name of the resource group to create. Prefix is appended to it"  
+}
+
+variable "region" {
+  type = string
+  description = "Region where resources are deployed to"
+}
+
+variable "ibmcloud_api_key" {
+  type = string
+  description = "The IBM Cloud API Key"
+  sensitive   = true
 }

@@ -1,45 +1,11 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 required_providers {
-  aws = {
-    source  = "hashicorp/aws"
-    version = "~> 5.7.0"
-  }
-
-  random = {
-    source  = "hashicorp/random"
-    version = "~> 3.5.1"
-  }
-
-  archive = {
-    source  = "hashicorp/archive"
-    version = "~> 2.4.0"
-  }
-
-  local = {
-    source = "hashicorp/local"
-    version = "~> 2.4.0"
+  ibm = {
+      source  = "IBM-Cloud/ibm"
+      version = ">= 1.70.0"
   }
 }
 
-provider "aws" "configurations" {
-  for_each = var.regions
-
-  config {
-    region = each.value
-
-    assume_role_with_web_identity {
-      role_arn           = var.role_arn
-      web_identity_token = var.identity_token
-    }
-
-    default_tags {
-      tags = var.default_tags
-    }
-  }
+provider "ibm" "this" {
+  ibmcloud_api_key = var.ibmcloud_api_key
+  region           = var.region
 }
-
-provider "random" "this" {}
-provider "archive" "this" {}
-provider "local" "this" {}
